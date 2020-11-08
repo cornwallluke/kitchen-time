@@ -1,0 +1,15 @@
+<div class="row">
+    <ng-container *ngFor="let t of timers | async">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    TIMER
+                </div>
+                <span>time left on the timer</span>
+                <div class="card-footer">
+                    delete button
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
