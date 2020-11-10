@@ -1,1 +1,28 @@
-<p>add-modal works!</p>
+<div class="modal" id="addmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="timername">Timer Name</label>
+            <input type="text" class="form-control" name="timername" [(ngModel)]="timername" placeholder="Timer Name">
+          </div>
+          <div class="form-group">
+            <label for="durationslide">Hours</label>
+            <input type="time" step="1" class="form-control" name="duration" [(ngModel)]="duration" (ngSubmit)="addTimer()">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="addTimer()">Add Timer</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

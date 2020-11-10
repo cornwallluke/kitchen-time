@@ -3,13 +3,21 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    TIMER
+                    {{t.name}}
                 </div>
-                <span>time left on the timer</span>
+                <span>{{t.finishtime}}</span>
+                <span>{{t.starttime}}</span>
+                <progress [max]="t.finishtime-t.starttime" [value]="(tick | async) - t.starttime"></progress>
                 <div class="card-footer">
-                    delete button
+
+                    <button type="button" class="btn btn-danger" (click)="rem(t)">{{(tick | async)>t.finishtime ? "Stop Timer":"Cancel Timer"}}</button>
                 </div>
             </div>
         </div>
     </ng-container>
+    <div class="col">
+        <div class = "card addtimer" (click)="added($event)">
+            <span>+</span>
+        </div>
+    </div>
 </div>
