@@ -29,9 +29,11 @@ export class audio{
 
   constructor(url: string){
     this.toner = new Audio(url);
-    this.toner.load();
     this.ringing = 0;
     this.wasringing = false;
+  }
+  load(){
+    this.toner.load();
   }
   ring(num:number|undefined = undefined){
     this.ringing = num!==undefined?num:this.ringing;
@@ -43,7 +45,6 @@ export class audio{
     if(this.ringing<1){
       this.wasringing = false
       this.toner.pause();
-      this.toner.load();
       // this.toner.fastSeek(0);
     }
   }
@@ -89,6 +90,7 @@ export class TimersService {
   }
   newTimer(start:number, end:number, name: String): void{
     console.log(this.timers);
+    this.ringer.load();
     this.timers.value.push(new timer(start, end, name, false));
     
     this.adding.next(false);
