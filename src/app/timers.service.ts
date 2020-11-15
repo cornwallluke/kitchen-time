@@ -6,6 +6,47 @@ export class timer{
   starttime: number;
   finishtime: number;
   name: String;
+  muted: boolean = false; 
+  constructor(starttime, finishtime, name, muted){
+    this.starttime = starttime;
+    this.finishtime = finishtime;
+    this.name = name;
+    this.muted = muted;
+  }
+  public isringing(time:number|undefined = undefined):boolean{
+    console.log((time?time:Date.now())>this.finishtime && !this.muted)
+    return (time?time:Date.now())>this.finishtime && !this.muted;
+  }
+  public mute(){
+    this.muted = true;
+  }
+}
+
+export class audio{
+  private toner: HTMLAudioElement;
+  public ringing: number;
+  private wasringing: boolean;
+
+  constructor(url: string){
+    this.toner = new Audio(url);
+    this.toner.load();
+    this.ringing = 0;
+    this.wasringing = false;
+  }
+  ring(num:number|undefined = undefined){
+    this.ringing = num!==undefined?num:this.ringing;
+    console.log(this.ringing);
+    if(this.ringing && !this.wasringing){
+      this.toner.play();
+      this.wasringing = true;
+    }
+    if(this.ringing<1){
+      this.wasringing = false
+      this.toner.pause();
+      this.toner.load();
+      // this.toner.fastSeek(0);
+    }
+  }
 }
 
 @Injectable({
@@ -13,25 +54,33 @@ export class timer{
 })
 export class TimersService {
   private timers:BehaviorSubject<timer[]>;
-  private tick:Subject<number>;
+  private tick:BehaviorSubject<number>;
   private adding:BehaviorSubject<boolean>;
+  private ringer:audio;
 
   constructor() { 
     this.timers = new BehaviorSubject<timer[]>([]);
     this.adding = new BehaviorSubject<boolean>(false);
-    this.tick = new Subject<number>();
+    this.tick = new BehaviorSubject<number>(Date.now());
     setInterval(()=>{
       this.tick.next(Date.now())
-    }, 1000);
+    }, 100);
+
+    this.ringer = new audio("../assets/beep.mp3");
+
+    this.tick.subscribe((time)=>{
+      this.ringer.ring(this.timers.value.reduce((acc, val)=>{
+        return acc+(val.isringing(time)?1:0)
+      }, 0));
+    });
   }
-  ngDest
   getTimers(): Observable<timer[]>{
     return this.timers;
   }
   getAdding(): Observable<boolean>{
     return this.adding;
   }
-  getTick(){
+  getTick(): BehaviorSubject<number>{
     return this.tick;
   }
   addTimer(): void{
@@ -40,7 +89,7 @@ export class TimersService {
   }
   newTimer(start:number, end:number, name: String): void{
     console.log(this.timers);
-    this.timers.value.push({starttime:start, finishtime:end, name:name});
+    this.timers.value.push(new timer(start, end, name, false));
     
     this.adding.next(false);
     

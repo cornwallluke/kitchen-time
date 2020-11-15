@@ -1,23 +1,29 @@
 <div class="row">
     <ng-container *ngFor="let t of timers | async">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
+        <div class="col high mt-3">
+            <div class="card text-center h-100" [ngClass]="{'border-danger':t.isringing(), 'border-warning':t.muted}">
+                <div class="card-header" [ngClass]="{'text-danger':t.isringing(), 'text-warning':t.muted}">
                     {{t.name}}
                 </div>
-                <span>{{t.finishtime}}</span>
-                <span>{{t.starttime}}</span>
-                <progress [max]="t.finishtime-t.starttime" [value]="(tick | async) - t.starttime"></progress>
+                <div class="card-body centerable">
+                    <div style="font-size: 3.5rem;" [ngClass]="{'text-danger':t.isringing(), 'text-warning':t.muted}">{{displayRemaining(t.finishtime-(tick | async))}}</div>
+                </div>
+                <!-- <progress [max]="t.finishtime-t.starttime" [value]="(tick | async) - t.starttime"></progress> -->
                 <div class="card-footer">
-
-                    <button type="button" class="btn btn-danger" (click)="rem(t)">{{(tick | async)>t.finishtime ? "Stop Timer":"Cancel Timer"}}</button>
+                    <!-- <button type="button" class="btn btn-primary" (click)="plusOne(t)">+1 Minute</button> -->
+                    <ng-container *ngIf="t.isringing(); else remove">
+                        <button type="button" class="btn btn-danger" (click)="mute(t)">Silence</button>    
+                    </ng-container>
+                    <ng-template #remove>
+                        <button type="button" class="btn btn-danger" (click)="rem(t)">{{(tick | async)>t.finishtime ? "Stop Timer":"Cancel Timer"}}</button>
+                    </ng-template>
                 </div>
             </div>
         </div>
     </ng-container>
-    <div class="col">
-        <div class = "card addtimer" (click)="added($event)">
-            <span>+</span>
+    <div class="col high mt-3">
+        <div class = "card text-center h-100">
+            <button type="button" class="btn btn-outline-primary" (click)="added($event)" style="height:100%; width:100%; font-size: xx-large;">+</button>    
         </div>
     </div>
 </div>
