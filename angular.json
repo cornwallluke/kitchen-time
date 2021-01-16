@@ -23,14 +23,14 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles":[ 
-	      "src/styles.css",
-	      "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            "styles": [
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
-	      "node_modules/jquery/dist/jquery.min.js",
-	      "node_modules/bootstrap/dist/js/bootstrap.min.js"
-	    ]
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "timer"
+    }
+  },
+  "defaultProject": "timer",
+  "cli": {
+    "analytics": "02aa019b-d531-4e62-8900-ff40dbb35c0c"
+  }
 }

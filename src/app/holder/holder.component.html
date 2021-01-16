@@ -1,6 +1,6 @@
-<div class="row">
+<div class="card-columns mt-3">
     <ng-container *ngFor="let t of timers | async">
-        <div class="col high mt-3">
+        <!-- <div class="col col-sm-12 col-md-6 col-lg-4 high mt-3"> -->
             <div class="card text-center h-100" [ngClass]="{'border-danger':t.isringing(), 'border-warning':t.muted}">
                 <div class="card-header" [ngClass]="{'text-danger':t.isringing(), 'text-warning':t.muted}">
                     {{t.name}}
@@ -19,11 +19,9 @@
                     </ng-template>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </ng-container>
-    <div class="col high mt-3">
-        <div class = "card text-center h-100">
-            <button type="button" class="btn btn-outline-primary" (click)="added($event)" style="height:100%; width:100%; font-size: xx-large;">+</button>    
-        </div>
-    </div>
+    <div class="card">
+    <button type="button" class="high btn btn-outline-primary h-100 w-100" (click)="added($event)" style="font-size: xx-large;">+</button>
+</div>
 </div>
